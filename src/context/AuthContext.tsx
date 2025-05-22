@@ -38,8 +38,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     
     try {
       // In a real app, this would be an API call
-      if (email === 'admin@example.com' && password === 'password') {
-        const user = { id: '1', name: 'Admin User', email: 'admin@example.com' };
+      if (email === 'admin@tapitt.com' && password === 'tapitt') {
+        const user = { id: '1', name: 'Admin User', email: 'admin@tapitt.com' };
         setUser(user);
         localStorage.setItem('user', JSON.stringify(user));
         toast.success('Login successful!');
