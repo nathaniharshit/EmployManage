@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import {
-  Employee,
-  EmployeeType,
-  uploadProfilePicture,
-} from "@/services/employeeService";
+import { Employee, uploadProfilePicture } from "@/services/employeeService";
+import type { EmployeeType } from "@/services/employeeService";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -44,29 +42,14 @@ const employeeTypes: { value: EmployeeType; label: string }[] = [
 ];
 
 const departments = [
-  "Engineering",
-  "Design",
-  "Product",
-  "Marketing",
-  "Sales",
-  "HR",
-  "Finance",
-  "Operations",
-  "Customer Support",
-  "Other",
+  "Engineering", "Design", "Product", "Marketing", "Sales", "HR",
+  "Finance", "Operations", "Customer Support", "Other"
 ];
 
 const positions = [
-  "Software Engineer",
-  "Product Manager",
-  "Designer",
-  "Sales Executive",
-  "HR Manager",
-  "Marketing Specialist",
-  "Data Analyst",
-  "Customer Support Representative",
-  "DevOps Engineer",
-  "Finance Analyst",
+  "Software Engineer", "Product Manager", "Designer", "Sales Executive",
+  "HR Manager", "Marketing Specialist", "Data Analyst",
+  "Customer Support Representative", "DevOps Engineer", "Finance Analyst"
 ];
 
 const countryCodes = [
@@ -88,13 +71,9 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
   onSubmit,
   isSubmitting,
 }) => {
-  const [formData, setFormData] = useState<Partial<Employee>>(
-    employee || emptyEmployee
-  );
+  const [formData, setFormData] = useState<Partial<Employee>>(employee || emptyEmployee);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | undefined>(
-    employee?.profilePicture
-  );
+  const [imagePreview, setImagePreview] = useState<string | undefined>(employee?.profilePicture);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [countryCode, setCountryCode] = useState<string>("+91");
 
@@ -115,7 +94,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSelectChange = (name: string, value: string) => {
+  const handleSelectChange = <T extends keyof Employee>(name: T, value: Employee[T]) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -125,9 +104,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
       setImageFile(file);
 
       const reader = new FileReader();
-      reader.onload = () => {
-        setImagePreview(reader.result as string);
-      };
+      reader.onload = () => setImagePreview(reader.result as string);
       reader.readAsDataURL(file);
     }
   };
@@ -136,7 +113,6 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
     e.preventDefault();
 
     let updatedFormData = { ...formData };
-
     if (formData.phone) {
       updatedFormData.phone = `${countryCode}${formData.phone}`;
     }
@@ -185,44 +161,17 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <Label htmlFor="name">First Name *</Label>
-          <Input
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="name">Last Name *</Label>
-          <Input
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
+          <Input id="name" name="name" value={formData.name || ""} onChange={handleChange} required />
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="email">Email Address *</Label>
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
+          <Input id="email" name="email" type="email" value={formData.email || ""} onChange={handleChange} required />
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="position">Designation *</Label>
-          <Select
-            value={formData.position}
-            onValueChange={(value) => handleSelectChange("position", value)}
-          >
+          <Select value={formData.position} onValueChange={(value) => handleSelectChange("position", value)}>
             <SelectTrigger>
               <SelectValue placeholder="Select position" />
             </SelectTrigger>
@@ -238,10 +187,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
 
         <div className="space-y-2">
           <Label htmlFor="department">Department *</Label>
-          <Select
-            value={formData.department}
-            onValueChange={(value) => handleSelectChange("department", value)}
-          >
+          <Select value={formData.department} onValueChange={(value) => handleSelectChange("department", value)}>
             <SelectTrigger>
               <SelectValue placeholder="Select department" />
             </SelectTrigger>
@@ -257,12 +203,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
 
         <div className="space-y-2">
           <Label htmlFor="type">Employee Type *</Label>
-          <Select
-            value={formData.type}
-            onValueChange={(value) =>
-              handleSelectChange("type", value as EmployeeType)
-            }
-          >
+          <Select value={formData.type} onValueChange={(value) => handleSelectChange("type", value as EmployeeType)}>
             <SelectTrigger>
               <SelectValue placeholder="Select employee type" />
             </SelectTrigger>
@@ -278,25 +219,15 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
 
         <div className="space-y-2">
           <Label htmlFor="hireDate">Hire Date *</Label>
-          <Input
-            id="hireDate"
-            name="hireDate"
-            type="date"
-            value={formData.hireDate}
-            onChange={handleChange}
-            required
-          />
+          <Input id="hireDate" name="hireDate" type="date" value={formData.hireDate || ""} onChange={handleChange} required />
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="phone">Phone Number</Label>
           <div className="flex gap-2">
-            <Select
-              value={countryCode}
-              onValueChange={(value) => setCountryCode(value)}
-            >
+            <Select value={countryCode} onValueChange={(value) => setCountryCode(value)}>
               <SelectTrigger className="w-60">
-                <SelectValue />
+                <SelectValue placeholder="Code" />
               </SelectTrigger>
               <SelectContent>
                 {countryCodes.map(({ code, label, flag }) => (
@@ -306,41 +237,21 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
                 ))}
               </SelectContent>
             </Select>
-            <Input
-              id="phone"
-              name="phone"
-              value={formData.phone || ""}
-              onChange={handleChange}
-            />
+            <Input id="phone" name="phone" value={formData.phone || ""} onChange={handleChange} />
           </div>
         </div>
 
         <div className="space-y-2 md:col-span-2">
           <Label htmlFor="address">Address *</Label>
-          <Textarea
-            id="address"
-            name="address"
-            value={formData.address || ""}
-            onChange={handleChange}
-            rows={3}
-            required
-          />
+          <Textarea id="address" name="address" value={formData.address || ""} onChange={handleChange} rows={3} required />
         </div>
       </div>
 
       <div className="flex justify-end gap-3">
-        <Button
-          variant="outline"
-          type="button"
-          onClick={() => window.history.back()}
-        >
+        <Button variant="outline" type="button" onClick={() => window.history.back()}>
           Cancel
         </Button>
-        <Button
-          type="submit"
-          className="bg-brand-600 hover:bg-brand-700"
-          disabled={isSubmitting || uploadingImage}
-        >
+        <Button type="submit" className="bg-brand-600 hover:bg-brand-700" disabled={isSubmitting || uploadingImage}>
           {isSubmitting || uploadingImage
             ? "Saving..."
             : employee

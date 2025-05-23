@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { 
   getAllEmployees, 
-  searchEmployees, 
   deleteEmployee,
   Employee
 } from "@/services/employeeService";
@@ -48,8 +47,6 @@ const DashboardPage = () => {
     
     setIsLoading(true);
     try {
-      const results = await searchEmployees(searchQuery);
-      setEmployees(results);
     } catch (error) {
       console.error("Search failed:", error);
     } finally {
