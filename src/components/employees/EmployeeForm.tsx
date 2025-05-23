@@ -165,6 +165,11 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
         </div>
 
         <div className="space-y-2">
+          <Label htmlFor="name">Last Name *</Label>
+          <Input id="name" name="name" value={formData.name || ""} onChange={handleChange} required />
+        </div>
+
+        <div className="space-y-2">
           <Label htmlFor="email">Email Address *</Label>
           <Input id="email" name="email" type="email" value={formData.email || ""} onChange={handleChange} required />
         </div>
