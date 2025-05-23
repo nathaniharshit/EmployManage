@@ -178,7 +178,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
           <Label htmlFor="position">Designation *</Label>
           <Select value={formData.position} onValueChange={(value) => handleSelectChange("position", value)}>
             <SelectTrigger>
-              <SelectValue placeholder="Select position" />
+              <SelectValue placeholder="Select designation" />
             </SelectTrigger>
             <SelectContent>
               {positions.map((pos) => (
