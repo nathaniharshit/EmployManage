@@ -64,15 +64,27 @@ const RegisterForm = () => {
       <form onSubmit={handleSubmit} noValidate>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Full Name</Label>
+            <Label htmlFor="firstname">First Name</Label>
             <Input
-              id="name"
+              id="firstname"
               type="text"
-              placeholder="Enter Full Name"
+              placeholder="Enter your First Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              autoComplete="name"
+              autoComplete="firstname"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="lastname">Last Name</Label>
+            <Input
+              id="lastname"
+              type="text"
+              placeholder="Enter your Last Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              autoComplete="lastname"
             />
           </div>
           <div className="space-y-2">
